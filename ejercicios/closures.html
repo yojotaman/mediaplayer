@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closures</title>
+</head>
+
+<body>
+    <script>
+        /*Los clojures permiten trabajar con variables privadas*/
+
+        /* estas variables estan disponibles de forma global*/
+        // let color = 'green'
+
+        // function printColor() {
+        //     console.log(color);
+        // }
+
+        // printColor()
+
+        /* IIFE: inmediately invoke function expression
+        en este ejemplo, la variable color se encuentra definida dentro del scope de la IIFE
+        por tal razon no es accesible dentro del scope global
+        */
+
+        // (function() {
+        //     let color = 'green'
+
+        //     function printColor() {
+        //         console.log(color);
+        //     }
+
+        //     printColor()
+        // })()
+
+        //
+        function makeColorPrinter(color) {
+            let colorMessage = `el color es ${color}`
+            return function() {
+                console.log(colorMessage);
+            }
+        }
+
+        let greenColorPrinter = makeColorPrinter('green')
+
+        /*
+        uno de los propositos de los closures es encapsular las variables para
+        que estas se encuentren ocultas y de esta forma evitar que sean modificadas por
+        otras partes de la logica
+        */
+        // const counter = {
+        //     count: 10
+        // }
+        // console.log(counter.count);
+        // counter.count = 30
+        // console.log(counter.count); // este cmportamiento es indeseado
+
+        /*
+        una forma de arreglar esto es encapsulando la logica dentro de una funcion
+            con este mecanismo logramos crear una variable privada
+        */
+
+        function makeCounter(n) {
+            let count = n
+
+            return {
+                increase: function() {
+                    count += 1
+                },
+                decrease: function() {
+                    count -= 1
+                },
+                getCount: function() {
+                    return count
+                }
+            }
+        }
+
+        let counter = makeCounter(7)
+        console.log(counter.getCount());
+        counter.increase()
+        counter.increase()
+        counter.increase()
+        console.log(counter.getCount());
+        counter.decrease()
+        counter.decrease()
+        counter.decrease()
+        console.log(counter.getCount());
+    </script>
+</body>
+
+</html>

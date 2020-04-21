@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope</title>
+</head>
+
+<body>
+    <script>
+        // scope = ambito de una variable
+        /*
+        - global scope
+        - function scope
+        - block scope
+        - module scope
+        */
+
+        // global scope
+        var message = 'Hola Jonathan' // window  es el scope global
+
+        // scope de funciones
+        var helloFunction = function(message) {
+            console.log(`Hola ${message}`);
+        }
+
+        /*En la siguiente funcion se presenta un problema de scope
+        el ciclo for finaliza antes de que se ejcute la fucion de timeout
+        de tal forma que la momento en en el esta se ejecuta el valo de i ya ha llegado a fa-rotate-180*/
+        function printNumbers1() {
+            for (var i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    console.log(i);
+                }, 100)
+            }
+        }
+
+        /*Usando function scope puedo resolver el inconveniente
+        para esto vamos a hacer el llamado de na nueva funcion que recibe el parametro n
+        cada vez que recorra el loop, esto sucede porque en este caso estamos entrando en un scope nuevo
+        en donde se recuerda el valor de n*/
+        function printNumbers2() {
+
+            for (var i = 0; i < 10; i++) {
+                function newscope(n) {
+                    setTimeout(function() {
+                        console.log(n);
+                    }, 100)
+                }
+                newscope(i)
+            }
+        }
+
+
+        /*esto tambien cambia dependiendo de si usamos let o var, esn este caso
+        let y const operan sobre el block scope */
+
+        function printNumbers3() {
+
+            for (let i = 0; i < 10; i++) {
+                setTimeout(function() {
+                    console.log(i);
+                }, 100)
+            }
+        }
+
+        /* Module scope: en este caso el scope de una variable está limitado al
+        archivo donde fue declarada esa variable*/
+    </script>
+</body>
+
+</html>

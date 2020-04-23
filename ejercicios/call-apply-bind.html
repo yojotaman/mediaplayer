@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call, Apply, Bind</title>
+</head>
+
+<body>
+    <ul>
+        <li><button class="call-to-action">Aprender</button></li>
+        <li><button class="call-to-action">Aprender más</button></li>
+        <li><button class="call-to-action">Aprender por siempre</button></li>
+    </ul>
+
+
+
+    <script>
+        /* Establecer this usando call*/
+        function saludar() {
+            console.log(`Hola soy ${this.name} ${this.apellido}`);
+        }
+
+        const persona = {
+            name: 'Jonathan',
+            apellido: 'Salazar'
+        }
+
+        saludar.call(persona)
+
+        /* Establecer this usando call y pasar argumentos a la funcion*/
+        function caminar(metros, direccion) {
+            console.log(`${this.name} camina ${metros} metros en direccion ${direccion}`);
+        }
+
+        caminar.call(persona, 300, 'norte')
+
+        /* Establecer this usando apply y pasar argumentos a la funcion*/
+        caminar.apply(persona, [500, 'sur'])
+
+        /* Establecer this en una nueva funcion usando bind*/
+
+        const persona2 = {
+            name: 'Andres',
+            apellido: 'Toro'
+
+        }
+
+        caminar.bind(persona2)
+        const andresSaluda = saludar.bind(persona2)
+        andresSaluda()
+
+        const andresCamina = caminar.bind(persona2)
+        andresCamina(700, 'oeste')
+
+        const andresCamina2 = caminar.bind(persona2, 700, 'oeste')
+        andresCamina2()
+
+        const andresCamina3 = caminar.bind(persona2, 700)
+        andresCamina3('oeste')
+
+        /* Cuando utilizar cada uno de los metodos*/
+
+        const buttons = document.getElementsByClassName('call-to-action') // regresa un objeto de tipoo node list
+            // El objeto de tipo NodeList no se comporta como un arreglo, por lo tanto no soporta el metodo forEach
+            // presentado en la siguiente operacion
+
+        // buttons.forEach(button => {
+        //     button.onclick = () => alert('Aprender es lo mejor')
+        // })
+
+        // con la ayuda de call podemos arreglar esto de la siguiente manera
+
+        Array.prototype.forEach.call(buttons, button => {
+            button.onclick = () => alert('Aprender es lo mejor')
+        })
+    </script>
+</body>
+
+</html>
